@@ -41,17 +41,11 @@ router.get('/verify', async (req, res) => {
     user.verifyToken = undefined;
     await user.save();
 
-     res.send(`
-      <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
-        <h2 style="color: #4CAF50;">Email verified successfully!</h2>
-        <p>You can now open the app and log in.</p>
-      </div>
-    `);
+    res.send('<h2>Email verified successfully. You can now log in.</h2>');
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
 
 // Login with verification check
 router.post('/login', async (req, res) => {

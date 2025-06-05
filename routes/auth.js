@@ -33,17 +33,24 @@ router.post('/signup', async (req, res) => {
 router.get('/verify', async (req, res) => {
   try {
     const { token } = req.query;
+
     const user = await User.findOne({ verifyToken: token });
-    if (!user)
-      return res.status(400).json({ success: false, message: 'Invalid or expired token' });
+
+    if (!user) {
+      return res.status(400).send(`
+        <h3 style="font-family: sans-serif; color: red;">Invalid or expired token</h3>
+      `);
+    }
 
     user.isVerified = true;
     user.verifyToken = undefined;
     await user.save();
 
-    res.send('<h2>Email verified successfully. You can now log in.</h2>');
+    // ✅ Redirect user to the app using deep link with token
+    return res.redirect(`myapp://verify?token=${token}`);
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error(err);
+    res.status(500).send('<h3>Internal server error. Please try again later.</h3>');
   }
 });
 

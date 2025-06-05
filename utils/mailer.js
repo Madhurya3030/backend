@@ -31,19 +31,26 @@ async function sendVerificationEmail(email, token) {
     const url = `https://homecare-backend-ke7r.onrender.com/api/auth/verify?token=${token}`;
     
     const mailOptions = {
-      from: `"HomeCare Auth" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Verify your email address',
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 16px; border: 1px solid #ddd;">
-          <h2>Email Verification</h2>
-          <p>Please click the button below to verify your email address:</p>
-          <a href="${url}" style="background-color: #4CAF50; color: white; padding: 10px 20px;
-          text-decoration: none; border-radius: 5px;">Verify Email</a>
-          <p>Or open this link manually: <br/><a href="${url}">${url}</a></p>
-        </div>
-      `,
-    };
+  from: `"HomeCare Support" <${process.env.EMAIL_USER}>`,
+  to: email,
+  subject: 'Verify Your HomeCare Account',
+  html: `
+    <div style="font-family: Arial, sans-serif; border: 1px solid #eee; padding: 20px;">
+      <h2 style="color: #4CAF50;">Welcome to HomeCare</h2>
+      <p>We're excited to have you on board! Please verify your email address by clicking the button below:</p>
+      <a href="${url}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+        Verify My Email
+      </a>
+      <p>If the button doesn't work, you can also copy and paste this URL into your browser:</p>
+      <p style="word-break: break-all;"><a href="${url}">${url}</a></p>
+      <hr/>
+      <p style="font-size: 12px; color: gray;">This email was sent by HomeCare. If you didn’t request this, please ignore.</p>
+    </div>
+  `
+};
+
+
+
 
     console.log(`📨 Sending email to: ${email}`);
     const info = await transporter.sendMail(mailOptions);
